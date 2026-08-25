@@ -46,7 +46,14 @@ class AuthService {
 
   /// Sign out from all providers
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
+    try {
+      if (!kIsWeb) {
+        await _googleSignIn.signOut();
+      }
+    } catch (e) {
+      print('Google sign out error: $e');
+    }
+    
     await _auth.signOut();
     apiService.clearToken();
   }
