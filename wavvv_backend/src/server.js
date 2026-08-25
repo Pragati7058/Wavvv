@@ -52,9 +52,14 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', environment: config.env, time: new Date() });
 });
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).send('Wavvv Backend API is running.');
+});
+
 // Catch-all route not found (404)
 app.use((req, res, next) => {
-  const error = new Error('Endpoint not found');
+  const error = new Error(`Endpoint not found: ${req.method} ${req.originalUrl}`);
   error.statusCode = 404;
   next(error);
 });
